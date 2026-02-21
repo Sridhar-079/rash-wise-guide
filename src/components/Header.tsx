@@ -2,15 +2,19 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Shield, Menu, X } from "lucide-react";
 import { useState } from "react";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   const links = [
-    { to: "/", label: "Home" },
-    { to: "/scan", label: "Scan" },
-    { to: "/education", label: "Skin Health" },
+    { to: "/", label: t("home") },
+    { to: "/scan", label: t("scan") },
+    { to: "/education", label: t("skinHealth") },
+    { to: "/consult", label: t("consult") },
   ];
 
   return (
@@ -22,7 +26,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-4 md:flex">
           {links.map((l) => (
             <Link
               key={l.to}
@@ -34,15 +38,19 @@ const Header = () => {
               {l.label}
             </Link>
           ))}
+          <LanguageSelector />
           <Button asChild size="sm">
-            <Link to="/scan">Start Scan</Link>
+            <Link to="/scan">{t("startScan")}</Link>
           </Button>
         </nav>
 
         {/* Mobile toggle */}
-        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <LanguageSelector />
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile nav */}
@@ -62,7 +70,7 @@ const Header = () => {
               </Link>
             ))}
             <Button asChild size="sm" className="w-full">
-              <Link to="/scan" onClick={() => setMenuOpen(false)}>Start Scan</Link>
+              <Link to="/scan" onClick={() => setMenuOpen(false)}>{t("startScan")}</Link>
             </Button>
           </div>
         </nav>

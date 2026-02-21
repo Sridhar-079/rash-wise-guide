@@ -2,8 +2,9 @@ import { useLocation, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, CheckCircle, ArrowLeft, RotateCcw, Stethoscope } from "lucide-react";
+import { AlertTriangle, CheckCircle, ArrowLeft, RotateCcw, Stethoscope, Video } from "lucide-react";
 import Header from "@/components/Header";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const riskConfig = {
   low: {
@@ -38,6 +39,7 @@ interface AnalysisResult {
 
 const Results = () => {
   const location = useLocation();
+  const { t } = useLanguage();
   const state = location.state as { result?: AnalysisResult; imageUrl?: string } | null;
 
   if (!state?.result) {
@@ -146,14 +148,19 @@ const Results = () => {
           )}
 
           {/* Actions */}
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild className="flex-1 rounded-full">
               <Link to="/scan">
-                <RotateCcw className="mr-2 h-4 w-4" /> Scan Again
+                <RotateCcw className="mr-2 h-4 w-4" /> {t("scanAgain")}
+              </Link>
+            </Button>
+            <Button asChild variant="secondary" className="flex-1 rounded-full">
+              <Link to="/consult">
+                <Video className="mr-2 h-4 w-4" /> {t("consultDoctor")}
               </Link>
             </Button>
             <Button asChild variant="outline" className="flex-1 rounded-full">
-              <Link to="/education">Learn More</Link>
+              <Link to="/education">{t("learnMore")}</Link>
             </Button>
           </div>
 

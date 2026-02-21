@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Camera, Search, FileText, Shield, AlertTriangle } from "lucide-react";
+import { Camera, Search, FileText, Shield, AlertTriangle, Video } from "lucide-react";
 import Header from "@/components/Header";
-
-const steps = [
-  { icon: Camera, title: "Capture", desc: "Take a photo or upload an image of the skin area you want to check." },
-  { icon: Search, title: "Analyze", desc: "Our AI analyzes the image and evaluates potential risk factors." },
-  { icon: FileText, title: "Results", desc: "Get a clear risk score with an explanation and personalized next steps." },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { t } = useLanguage();
+
+  const steps = [
+    { icon: Camera, title: t("capture"), desc: t("capture_desc") },
+    { icon: Search, title: t("analyze"), desc: t("analyze_desc") },
+    { icon: FileText, title: t("results"), desc: t("results_desc") },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -25,17 +28,22 @@ const Index = () => {
               AI-Powered Skin Health
             </div>
             <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-              Your AI Skin Health Companion
+              {t("hero_title")}
             </h1>
             <p className="max-w-lg text-lg text-muted-foreground">
-              Scan skin spots in seconds. Get an instant risk assessment with clear guidance on next steps — all from your phone.
+              {t("hero_desc")}
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap justify-center gap-3">
               <Button asChild size="lg" className="rounded-full px-8 text-base">
-                <Link to="/scan">Start Scan</Link>
+                <Link to="/scan">{t("startScan")}</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base">
-                <Link to="/education">Learn More</Link>
+                <Link to="/consult">
+                  <Video className="mr-2 h-4 w-4" /> {t("consultDoctor")}
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base">
+                <Link to="/education">{t("learnMore")}</Link>
               </Button>
             </div>
           </div>
@@ -44,7 +52,7 @@ const Index = () => {
 
       {/* How it works */}
       <section className="container mx-auto px-4 py-20">
-        <h2 className="mb-12 text-center text-3xl font-bold">How It Works</h2>
+        <h2 className="mb-12 text-center text-3xl font-bold">{t("howItWorks")}</h2>
         <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-3">
           {steps.map((s, i) => (
             <Card key={i} className="border-0 bg-card shadow-md transition-shadow hover:shadow-lg">
@@ -53,7 +61,7 @@ const Index = () => {
                   <s.icon className="h-7 w-7 text-accent-foreground" />
                 </div>
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Step {i + 1}
+                  {t("step")} {i + 1}
                 </span>
                 <h3 className="text-xl font-semibold">{s.title}</h3>
                 <p className="text-sm text-muted-foreground">{s.desc}</p>
@@ -69,9 +77,9 @@ const Index = () => {
           <div className="flex items-start gap-3">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
             <div>
-              <h4 className="font-semibold">Medical Disclaimer</h4>
+              <h4 className="font-semibold">{t("medicalDisclaimer")}</h4>
               <p className="mt-1 text-sm text-muted-foreground">
-                SkinGuard AI is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified dermatologist for any skin concerns. This tool provides an educational risk assessment only.
+                {t("disclaimer_text")}
               </p>
             </div>
           </div>
